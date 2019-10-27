@@ -1,0 +1,50 @@
+//- player-info.pug
+include ../partials/header.pug
+include ../partials/menu.pug
+
+div.container
+  br
+  div.row
+    div.col-4
+      div.card
+        //- TODO: Modify the pug code below to conditionally set the image_src
+        if player.year != null
+          - var image_src = player.img_src
+        else
+          - var image_src = '../../resources/img/helmet.jpg'
+
+        img.card-img-top#player_img(src= image_src, alt="Football Player")
+        div.card-body.mx-auto
+          form.form(action="/player_info/post", method="post")
+            select.custom-select(name="player_choice", onchange="this.form.submit()")
+              if playerSelected
+                  option(selected) #{player.name}
+              else
+                  option(selected) Select Player
+              //- TODO: Populate the select with player options. Set the value to the player's id and display the player's name.
+              for player in players
+                option(type="submit", value = player.id, name="player_id") #{player.name}
+    div.col-8
+      div.table-responsive
+        table.table
+          //- TODO: Set the player's information. On select, fill in the player's information in each of the field below. You will need to calculate the average rushing, receiving, and passing yards.
+          tr
+            th Year
+            td #{player.year}
+          tr
+            th Major
+            td #{player.major}
+          tr
+            th Games Played
+            td #{gameCount.count}
+          tr
+            td Passing Yards: #{player.passing_yards}
+            td Avg. Passing Yards:  #{player.passing_yards / gameCount.count}
+          tr
+            td Rushing Yards: #{player.rushing_yards}
+            td Avg. Rushing Yards: #{player.rushing_yards / gameCount.count}
+          tr
+            td Receiving Yards: #{player.receiving_yards}
+            td Avg. Receiving Yards: #{player.receiving_yards / gameCount.count}
+
+include ../partials/footer.pug
